@@ -1,0 +1,312 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct noeud noeud;
+struct noeud
+{
+    int valeur;
+    noeud *suivant;
+};
+noeud* cree(int valeur)
+{
+    noeud *p=NULL;
+    p=(noeud*)malloc(sizeof(noeud));
+    p->valeur=valeur;
+    p->suivant=NULL;
+    return p;
+}
+void afficher(noeud *debut)
+{
+    noeud *tmp=debut;
+    if(debut==NULL)
+    {
+        printf("liste vide");
+    }
+    else
+    {
+        while(tmp!=NULL)
+        {   printf("%d\n",tmp->valeur);
+            tmp=tmp->suivant;
+        }
+    }
+}
+noeud* ajoutD(noeud *debut,int valeur)
+{ noeud *p=NULL;
+    p=(noeud*)malloc(sizeof(noeud));
+    p->valeur=valeur;
+    p->suivant=debut;
+    debut=p;
+    return debut;
+}
+noeud* ajoutF(noeud *debut,int valeur)
+{ noeud *p=NULL,*tmp=debut;
+    p=(noeud*)malloc(sizeof(noeud));
+    p->valeur=valeur;
+    p->suivant=NULL;
+ if(debut==NULL)
+ {
+    debut=p;
+ }
+ else
+{ while(tmp->suivant!=NULL)
+{
+    tmp=tmp->suivant;
+}
+   tmp->suivant=p;
+}
+    return debut;
+}
+int taille(noeud *debut)
+{
+ noeud *tmp=debut;
+ int s=0;
+ if(debut!=NULL)
+ {
+     while(tmp!=NULL)
+     {
+    s++;
+     tmp=tmp->suivant;
+     }
+ }
+ return s;
+}
+noeud* insertion(noeud *debut,int valeur,int pos)
+{ noeud *p=NULL,*tmp=debut;
+int s=0,n=1;
+if(debut!=NULL)
+{
+ s=taille(debut);
+ while(pos<=0|| pos>s+1)
+ {
+     printf("votre position est invalide:");
+     scanf("%d",&pos);
+ }
+    p=(noeud*)malloc(sizeof(noeud));
+    p->valeur=valeur;
+if(pos==1)
+{
+    p->suivant=debut;
+    debut=p;
+}
+else{
+        while(tmp!=NULL && pos!=n+1)
+{
+    tmp=tmp->suivant;
+    n++;
+}
+if(tmp!=NULL)
+{
+    p->suivant=tmp->suivant;
+    tmp->suivant=p;
+}
+
+}
+}
+    return debut;
+}
+void rechercher(noeud *debut,int valeur)
+{  noeud *tmp=debut;
+   int s=0,n=1;
+   s=taille(debut);
+   if(debut==NULL)
+   {
+       printf("liste vide\n");
+   }
+   else
+{          while(tmp!=NULL && tmp->valeur!=valeur)
+{
+    tmp=tmp->suivant;
+    n++;
+}
+if(tmp==NULL)
+{
+    printf("la valeur n'a pas etait trouver\n");
+}
+else
+{ printf("la valeur se trouve dans le noeud:%d\n",n);
+}
+
+   }
+}
+noeud* suppressionD(noeud *debut)
+{ noeud *tmp=debut;
+if(debut!=NULL)
+{debut=tmp->suivant;
+ free(tmp);
+ }
+    return debut;
+}
+noeud* suppressionF(noeud *debut)
+{ noeud *tmp=debut;
+if(debut!=NULL)
+{ if(tmp->suivant==NULL)
+{
+    free(tmp);
+    debut=NULL;
+}
+else
+    {
+        while(tmp->suivant->suivant!=NULL)
+        {
+            tmp=tmp->suivant;
+        }
+        free(tmp->suivant);
+        tmp->suivant=NULL;
+    }
+ }
+    return debut;
+}
+noeud* suppressionP(noeud *debut,int pos)
+{ noeud *tmp=debut,*t=NULL;
+int s=0,n=1;
+if(debut!=NULL)
+{
+ s=taille(debut);
+ while(pos<=0|| pos>s)
+ {
+     printf("votre position est invalide:");
+     scanf("%d",&pos);
+ }
+if(pos==1)
+{
+ debut=tmp->suivant;
+ free(tmp);
+}
+else{
+        while(tmp->suivant!=NULL && pos!=n+1)
+{
+    tmp=tmp->suivant;
+    n++;
+}
+if(tmp->suivant!=NULL)
+{
+t=tmp->suivant;
+tmp->suivant=tmp->suivant->suivant;
+free(t);
+}
+
+}
+}
+    return debut;
+}
+noeud* modifierD(noeud *debut,int valeur)
+{ noeud *tmp=debut;
+if(debut!=NULL)
+{tmp->valeur=valeur;
+ }
+ else{
+    printf("liste vide");
+ }
+    return debut;
+}
+noeud* modifierF(noeud *debut,int valeur)
+{ noeud *tmp=debut;
+if(debut!=NULL)
+{ while(tmp->suivant!=NULL)
+{
+    tmp=tmp->suivant;
+}
+if(tmp!=NULL)
+{
+    tmp->valeur=valeur;
+}
+ }
+ else{
+    printf("liste vide");
+ }
+    return debut;
+}
+noeud* modifierP(noeud *debut,int pos,int valeur)
+{ noeud *tmp=debut;
+int s=0,n=1;
+if(debut!=NULL)
+{
+ s=taille(debut);
+ while(pos<=0|| pos>s)
+ {
+     printf("votre position est invalide:");
+     scanf("%d",&pos);
+ }
+if(pos==1)
+{
+tmp->valeur=valeur;
+}
+else{
+        while(tmp!=NULL && pos!=n)
+{
+    tmp=tmp->suivant;
+    n++;
+}
+if(tmp!=NULL)
+{
+tmp->valeur=valeur;
+}
+
+}
+}
+    return debut;
+}
+int main()
+{ noeud *p=NULL,*d=NULL,*f=NULL,*debut=NULL;
+int s,pos,val;
+    p=cree(10);
+    d=cree(20);
+    f=cree(30);
+    debut=p;
+    p->suivant=d;
+    d->suivant=f;
+    printf("-------Liste normal-------\n");
+afficher(debut);
+printf("-------Liste ajout Debut-------\n");
+printf("entrer une valeur:\n");
+ scanf("%d",&val);
+debut=ajoutD(debut,val);
+afficher(debut);
+printf("-------Liste ajout Fin-------\n");
+printf("entrer une valeur:\n");
+ scanf("%d",&val);
+debut=ajoutF(debut,val);
+afficher(debut);
+printf("-------Taille de la Liste-------\n");
+s=taille(debut);
+printf("la liste comporte %d element\n",s);
+printf("-------Liste ajout position donne-------\n");
+printf("entrer votre position:\n");
+scanf("%d",&pos);
+printf("entrer une valeur:\n");
+ scanf("%d",&val);
+debut=insertion(debut,val,pos);
+afficher(debut);
+ printf("-------Recherche dans la liste-------\n");
+ printf("entrer une valeur a trouver :\n");
+ scanf("%d",&val);
+ rechercher(debut,val);
+ printf("-------Liste suppression debut-------\n");
+debut=suppressionD(debut);
+afficher(debut);
+printf("-------Liste suppression Fin-------\n");
+debut=suppressionF(debut);
+afficher(debut);
+printf("-------Liste suppression position-------\n");
+printf("entrer votre position:\n");
+scanf("%d",&pos);
+debut=suppressionP(debut,pos);
+afficher(debut);
+printf("-------liste modifier au debut-------\n");
+printf("entrer une valeur:\n");
+ scanf("%d",&val);
+debut=modifierD(debut,val);
+afficher(debut);
+printf("-------liste modifier a la fin-------\n");
+printf("entrer une valeur:\n");
+ scanf("%d",&val);
+debut=modifierF(debut,val);
+afficher(debut);
+printf("-------liste modifier dans une position-------\n");
+printf("entrer une valeur:\n");
+ scanf("%d",&val);
+ printf("entrer votre position:\n");
+scanf("%d",&pos);
+debut=modifierP(debut,pos,val);
+afficher(debut);
+return 0;
+}
