@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Date{
+char jour[3];
+char mois[3];
+char annee[5];
+}Date;
+
+ typedef struct Produit{
+char *Nom_produit;
+char references[100];
+float montant;
+Date date_achat;
+}Produit;
+
+typedef struct Liste{
+Produit cellule;
+struct Liste *psuiv;
+}Liste;
+
+Liste* creer_liste_produits()
+{
+    Liste *tete=NULL;
+    return tete;
+}
+int est_vide(Liste *tete )
+{ int a;
+if(tete==NULL)
+{
+    a=1;
+}
+else{
+    a=0;
+}
+    return a;
+}
+Liste* creer_produits()
+{
+    Liste *p=NULL;
+    p=(Liste*)malloc(sizeof(Liste));
+    if(p!=NULL)
+    {
+        printf("entrer le nom du produit:");
+        scanf("%s",p->cellule.Nom_produit);
+        printf("entrer la reference du produit:");
+        scanf("%s",p->cellule.references);
+        printf("entrer le montant du produit:");
+        scanf("%f",&p->cellule.montant);
+        printf("entrer la date du produit:");
+        scanf("%s%s%s",p->cellule.date_achat.jour,p->cellule.date_achat.mois,p->cellule.date_achat.annee);
+    }
+    return p;
+}
+void afficher_produit(Liste *produit)
+{
+    printf("le nom du produit:(%s)",produit->cellule.Nom_produit);
+      printf("la reference du produit:(%s)",produit->cellule.references);
+        printf("le montant du produit:(%f)",produit->cellule.montant);
+          printf("la date du produit:(%s/%s/%s)",produit->cellule.date_achat.jour,produit->cellule.date_achat.mois,produit->cellule.date_achat.annee);
+}
+Liste* ajouter_debut(Liste *tete)
+{ Liste *p=NULL;
+    p=creer_produits();
+    p->psuiv=tete;
+    tete=p;
+    return tete;
+
+}
+Liste* ajouter_fin(Liste *tete)
+{ Liste *p=NULL,*tmp=tete;
+    p=creer_produits();
+    p->psuiv=NULL;
+   if(tete==NULL)
+   {
+       tete=p;
+   }
+   else{
+    while(tmp->psuiv!=NULL)
+    {
+        tmp=tmp->psuiv;
+    }
+    tmp->psuiv=p;
+   }
+    return tete;
+
+}
+void afficher_liste(Liste *tete)
+{ Liste *tmp=tete;
+if(tete!=NULL)
+{
+    while(tete!=NULL)
+    {
+    afficher_produit(tmp);
+    tmp=tmp->psuiv;
+    }
+}
+  else{
+    printf("liste vide");
+  }
+}
+int main()
+{
+
+
+    return 0;
+}
