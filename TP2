@@ -1,0 +1,262 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<string.h>
+typedef struct Date{
+char jour[3];
+char mois[3];
+char annee[5];
+}Date;
+
+ typedef struct Produit{
+char Nom_produit[30];
+char references[100];
+float montant;
+Date date_achat;
+}Produit;
+
+typedef struct Liste{
+Produit cellule;
+struct Liste *psuiv;
+}Liste;
+
+Liste* creer_liste_produits()
+{
+    Liste *tete=NULL;
+    return tete;
+}
+int est_vide(Liste *tete )
+{ int a;
+if(tete==NULL)
+{
+    a=1;
+}
+else{
+    a=0;
+}
+    return a;
+}
+Liste* creer_produits()
+{
+    Liste *p=NULL;
+    p=(Liste*)malloc(sizeof(Liste));
+    if(p!=NULL)
+    {
+        printf("entrer le nom du produit:\n");
+        scanf("%s",p->cellule.Nom_produit);
+        printf("entrer la reference du produit:\n");
+        scanf("%s",p->cellule.references);
+        printf("entrer le montant du produit:\n");
+        scanf("%f",&p->cellule.montant);
+        printf("entrer la date du produit:\n");
+        scanf("%s%s%s",p->cellule.date_achat.jour,p->cellule.date_achat.mois,p->cellule.date_achat.annee);
+    }
+    return p;
+}
+void afficher_produit(Liste *produit)
+{
+    printf("le nom du produit:(%s)\n",produit->cellule.Nom_produit);
+      printf("la reference du produit:(%s)\n",produit->cellule.references);
+        printf("le montant du produit:(%f)\n",produit->cellule.montant);
+          printf("la date du produit:(%s/%s/%s)\n",produit->cellule.date_achat.jour,produit->cellule.date_achat.mois,produit->cellule.date_achat.annee);
+}
+Liste* ajouter_debut(Liste *tete)
+{ Liste *p=NULL;
+    p=creer_produits();
+    p->psuiv=tete;
+    tete=p;
+    return tete;
+
+}
+Liste* ajouter_fin(Liste *tete)
+{ Liste *p=NULL,*tmp=tete;
+    p=creer_produits();
+    p->psuiv=NULL;
+   if(tete==NULL)
+   {
+       tete=p;
+   }
+   else{
+    while(tmp->psuiv!=NULL)
+    {
+        tmp=tmp->psuiv;
+    }
+    tmp->psuiv=p;
+   }
+    return tete;
+}
+void afficher_produits(Liste *tete)
+{ Liste *tmp=tete;
+if(tete!=NULL)
+{
+    while(tete!=NULL)
+    {
+    afficher_produit(tmp);
+    printf("\n");
+    tmp=tmp->psuiv;
+    }
+}
+  else{
+    printf("liste vide\n");
+  }
+}
+int longueur(Liste *tete)
+{
+ Liste *tmp=tete;
+ int s=0;
+ if(tete!=NULL)
+ {
+     while(tmp!=NULL)
+     {
+    s++;
+     tmp=tmp->psuiv;
+     }
+ }
+ return s;
+}
+void filtrer_date(Liste *tete,Date dt)
+{
+    Liste *tmp=tete;
+if(tete!=NULL)
+{
+    while(tete!=NULL)
+    {
+    if(strcmp(tmp->cellule.date_achat.jour,dt.jour)==0 && (strcmp(tmp->cellule.date_achat.mois,dt.mois)==0 && (strcmp(tmp->cellule.date_achat.annee,dt.annee)==0)))
+    {afficher_produit(tmp);}
+
+     tmp=tmp->psuiv;
+}
+}
+}
+Liste* supprimer_debut(Liste *tete)
+{ Liste *tmp=tete;
+if(tete!=NULL)
+{tete=tmp->psuiv;
+ free(tmp);
+ }
+ return tete;
+}
+Liste* supprimer_fin(Liste *tete)
+{ Liste *tmp=tete;
+if(tete!=NULL)
+{ if(tmp->psuiv==NULL)
+{
+    free(tmp);
+    tete=NULL;
+}
+else
+    {
+        while(tmp->psuiv->psuiv!=NULL)
+        {
+            tmp=tmp->psuiv;
+        }
+        free(tmp->psuiv);
+        tmp->psuiv=NULL;
+    }
+ }
+    return tete;
+}
+Liste* rembourser(Liste *liste,char *refer)
+{
+    Liste *tmp=liste,*t=NULL;
+    if(liste!=NULL)
+    {
+        if(strcmp(tmp->cellule.references,refer)==0)
+        {
+           liste=supprimer_debut(liste);
+        }
+        else
+        {
+            while(tmp!=NULL && strcmp(tmp->psuiv->cellule.references,refer)!=0)
+            {
+                tmp=tmp->psuiv;
+            }
+            if(tmp!=NULL)
+            {
+                if(tmp->psuiv->psuiv==NULL)
+                {
+                    liste=supprimer_fin(liste);
+                }
+                else
+                {
+                    t=tmp->psuiv;
+                    tmp->psuiv=tmp->psuiv->psuiv;
+                    free(t);
+                }
+            }
+        }
+    }
+    return liste;
+}
+int main()
+{
+Liste *tete,*p=NULL,*r=NULL,*g=NULL,*y=NULL;
+char refere[100];
+int h;
+Date c;
+tete=creer_liste_produits();
+printf("-------Liste initialement vide-------\n");
+afficher_produits(tete);
+printf("-------verification du contenue de la Listes-------\n");
+h=est_vide(tete);
+if(h==1)
+{
+    printf("Liste vide\n");
+}
+else if(h==0)
+{
+    printf("Liste remplie\n");
+}
+printf("-------creation de produit-------\n");
+p=creer_produits();
+g=creer_produits();
+r=creer_produits();
+y=creer_produits();
+tete=p;
+p->psuiv=g;
+g->psuiv=r;
+r->psuiv=y;
+printf("-------affichage de chaque produit individuellement-------\n");
+afficher_produit(p);
+printf("\n");
+afficher_produit(g);
+printf("\n");
+afficher_produit(r);
+printf("\n");
+afficher_produit(y);
+printf("\n");
+printf("-------verification du contenue de la Listes-------\n");
+h=est_vide(tete);
+if(h==1)
+{
+    printf("Liste vide\n");
+}
+else if(h==0)
+{
+    printf("Liste remplie\n");
+}
+printf("-------Ajout debut Liste-------\n");
+tete=ajouter_debut(tete);
+afficher_produits(tete);
+printf("-------Ajout Fin Liste-------\n");
+tete=ajouter_fin(tete);
+afficher_produits(tete);
+printf("-------taille de la liste-------\n");
+h=longueur(tete);
+printf("la liste contient %d produits\n",h);
+printf("-------filtrage par date-------\n");
+printf("entrer la date de votre produit");
+scanf("%s%s%s",&c.jour,&c.mois,&c.annee);
+filtrer_date(tete,c);
+printf("-------suppression debut Liste-------\n");
+tete=supprimer_debut(tete);
+afficher_produits(tete);
+printf("-------suppression Fin Liste-------\n");
+tete=supprimer_fin(tete);
+afficher_produits(tete);
+printf("-------remboursage d'un produit de la liste-------\n");
+printf("entrer la reference de votre produit");
+scanf("%s",&refere);
+tete=rembourser(tete,refere);
+afficher_produits(tete);
+return 0;
+}
