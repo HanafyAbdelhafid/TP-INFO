@@ -47,6 +47,17 @@ if(*top==NULL)
     }
 }
 }
+int taille(pile **top)
+{int s=0;
+pile *tmp=*top;
+while(tmp!=NULL)
+{
+    s++;
+    tmp=tmp->suivant;
+}
+
+    return s;
+}
 int main()
 {
     int s,n,i;
@@ -59,12 +70,15 @@ scanf("%d",&s);
 push(&top,s);}
 printf("afficher toute les valeurs de la pile:\n");
 affichage(&top);
+n=taille(&top);
+printf("la pile contient %d element\n",n);
 printf("combien de valeur a supprimmer:\n");
 scanf("%d",&n);
 for(i=0;i<n;i++)
 {pop(&top);}
 printf("afficher toute les valeurs de la pile APRES %d SUPPRESSION:\n",n);
 affichage(&top);
+
 
     return 0;
 }
