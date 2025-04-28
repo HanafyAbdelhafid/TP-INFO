@@ -58,6 +58,16 @@ while(tmp!=NULL)
 
     return s;
 }
+void peek(pile **top)
+{
+    if(*top==NULL)
+    {
+        printf("pile vide\n");
+    }
+    else{
+    pile *tmp=*top;
+    printf("%d\n",tmp->valeur);
+}}
 int main()
 {
     int s,n,i;
@@ -72,6 +82,8 @@ printf("afficher toute les valeurs de la pile:\n");
 affichage(&top);
 n=taille(&top);
 printf("la pile contient %d element\n",n);
+printf("La tete de la pile contient l'element\n");
+peek(&top);
 printf("combien de valeur a supprimmer:\n");
 scanf("%d",&n);
 for(i=0;i<n;i++)
