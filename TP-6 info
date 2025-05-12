@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main() {
+    FILE *fichier = fopen("donnees.txt", "w"); // mettre ici le raccourci qui emmaine vers le fichier "donnees.txt"
+    if (fichier == NULL) {
+        printf("Erreur d'ouverture du fichier.\n");
+        return 1;
+    }
+
+    char nom[50];
+    int age;
+
+    printf("Entrez votre nom : ");
+    scanf(" %[^\n]", nom);
+    printf("Entrez votre âge : ");
+    scanf("%d", &age);
+
+    fprintf(fichier, "Nom : %s\nÂge : %d\n", nom, age);
+    fclose(fichier);
+
+    printf("Données enregistrées dans donnees.txt\n");
+    return 0;
+}
