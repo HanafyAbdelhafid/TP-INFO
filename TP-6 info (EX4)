@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    FILE *fichier = fopen("texte.txt", "r"); //remplacer "texte.txt" par le raccourci lieé a celui ci
+    if (fichier == NULL) {
+        printf("Erreur d'ouverture du fichier.\n");
+        return 1;
+    }
+
+    int caracteres = 0, mots = 0, lignes = 0;
+    char c, precedent = ' ';
+
+    while ((c = fgetc(fichier)) != EOF) {
+        caracteres++;
+
+        if (c == '\n') lignes++;
+
+        if (isspace(c) && !isspace(precedent)) {
+            mots++;
+        }
+
+        precedent = c;
+    }
+
+    fclose(fichier);
+
+    printf("Nombre de caractères : %d\n", caracteres);
+    printf("Nombre de mots : %d\n", mots);
+    printf("Nombre de lignes : %d\n", lignes);
+    return 0;
+}
