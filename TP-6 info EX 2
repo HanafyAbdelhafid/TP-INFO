@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+    FILE *fichier = fopen("donnees.txt", "r");  //remplacer "donnees.txt" par le raccourci lieé a celui ci
+    if (fichier == NULL) {
+        printf("Erreur d'ouverture du fichier.\n");
+        return 1;
+    }
+
+    char ligne[100];
+    while (fgets(ligne, sizeof(ligne), fichier)) {
+        printf("%s", ligne);
+    }
+
+    fclose(fichier);
+    return 0;
+}
