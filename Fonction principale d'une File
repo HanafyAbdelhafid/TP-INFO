@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Noeud {
+    int valeur;
+    struct Noeud* suivant;
+} Noeud;
+
+Noeud* debut = NULL;
+Noeud* fin = NULL;
+
+void Enfiler(int valeur) {
+    Noeud* nouveau = (Noeud*)malloc(sizeof(Noeud));
+    nouveau->valeur = valeur;
+    nouveau->suivant = NULL;
+
+    if (fin == NULL) {
+        debut = fin = nouveau;
+    } else {
+        fin->suivant = nouveau;
+        fin = nouveau;
+    }
+    printf("Enfilé : %d\n", valeur);
+}
+
+void Defiler() {
+    if (debut == NULL) {
+        printf("La file est vide.\n");
+        return;
+    }
+
+    Noeud* temp = debut;
+    debut = debut->suivant;
+
+    if (debut == NULL) {
+        fin = NULL;
+    }
+
+    printf("Défilé : %d\n", temp->valeur);
+    free(temp);
+}
+
+void afficher(Noeud* top) {
+    Noeud* courant = top;
+    printf("Contenu de la file : ");
+    while (courant != NULL) {
+        printf("%d ", courant->valeur);
+        courant = courant->suivant;
+    }
+    printf("\n");
+}
+
+void viderFile() {
+    printf("Vidage complet de la file...\n");
+    while (debut != NULL) {
+        Defiler();
+    }
+    printf("La file est maintenant vide.\n");
+}
+
+int main() {
+Enfiler(10);
+Enfiler(20);
+Enfiler(30);
+
+printf("Affichage de la file :\n");
+afficher(debut);
+printf("Affichage après défilement :\n");
+Defiler();
+afficher(debut);
+printf("Enfilez deux éléments, puis videz la file :\n");
+Enfiler(40);
+Enfiler(50);
+afficher(debut);
+viderFile();
+afficher(debut);
+    return 0;
+}
